@@ -6,6 +6,13 @@ __pycache__/
 # C extensions
 *.so
 
+# Virtual environments for backend APIs
+*.venv/
+*.env/
+
+# Datasets
+backend/data/*
+
 # Distribution / packaging
 .Python
 build/
