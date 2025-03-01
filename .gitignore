@@ -9,6 +9,7 @@ __pycache__/
 # Virtual environments for backend APIs
 *.venv/
 *.env/
+*.conda/
 
 # Datasets
 backend/data/*
