@@ -1,23 +1,34 @@
 import io
+import requests
 from PIL import Image
-import torch
-from transformers import TrOCRProcessor, VisionEncoderDecoderModel
-
-# Load the model and processor
-processor = TrOCRProcessor.from_pretrained("microsoft/trocr-base-printed")
-model = VisionEncoderDecoderModel.from_pretrained("microsoft/trocr-base-printed")
 
 def perform_ocr(image_bytes):
-    # Convert bytes to PIL Image
-    image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+    if not image_bytes:
+        raise ValueError("Empty image bytes provided")
+    # Validate image bytes
+    try:
+        Image.open(io.BytesIO(image_bytes)).convert("RGB")
+    except Exception as e:
+        raise ValueError(f"Invalid image bytes provided: {e}")
 
-    # Preprocess the image
-    pixel_values = processor(image, return_tensors="pt").pixel_values
+    # OCR.space API endpoint and payload (using the free 'helloworld' key)
+    api_url = "https://api.ocr.space/parse/image"
+    payload = {
+        'apikey': 'helloworld',  # Free API key with usage limits
+        'language': 'eng'
+    }
+    files = {
+        'file': ('image.jpg', image_bytes)
+    }
 
-    # Perform OCR
-    with torch.no_grad():
-        generated_ids = model.generate(pixel_values)
-    
-    # Decode the generated ids to text
-    ocr_result = processor.decode(generated_ids[0], skip_special_tokens=True)
-    return ocr_result
+    response = requests.post(api_url, data=payload, files=files)
+    result = response.json()
+
+    if result.get("IsErroredOnProcessing"):
+        error = result.get("ErrorMessage") or "Unknown error"
+        raise ValueError(f"OCR processing error: {error}")
+
+    parsed_text = result.get("ParsedResults")[0].get("ParsedText", "")
+    paragraphs = parsed_text.split('\n')
+    formatted_text = "\n\n".join(p.strip() for p in paragraphs if p.strip())
+    return formatted_text
