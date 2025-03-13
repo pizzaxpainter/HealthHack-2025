@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+transformers  # For Hugging Face models
+torch
+torchvision
+pillow        # For image processing
+python-dotenv # For loading environment variables
+timm
