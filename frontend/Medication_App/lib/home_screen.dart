@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'new_medication.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,8 @@ class HomeScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () async {
-                    FilePickerResult? result = await FilePicker.platform.pickFiles();
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles();
                     if (result != null && result.files.single.path != null) {
                       debugPrint('File selected: ${result.files.single.path}');
                     } else {
@@ -106,23 +107,20 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   _buildMedicationItem(
                     context,
-                    'Amoxicillin - 65 mg Tablet',
-                    'After Meal',
-                    '1 tablet at 12:00 pm',
+                    medicationName: 'Amoxicillin - 65 mg Tablet',
+                    instructions: 'After Meal - 1 tablet at 12:00 pm',
                   ),
                   const SizedBox(height: 14),
                   _buildMedicationItem(
                     context,
-                    'Amoxicillin - 65 mg Tablet',
-                    'After Meal',
-                    '1 tablet at 4:00 pm',
+                    medicationName: 'Amoxicillin - 65 mg Tablet',
+                    instructions: 'After Meal - 1 tablet at 4:00 pm',
                   ),
                   const SizedBox(height: 14),
                   _buildMedicationItem(
                     context,
-                    'Amoxicillin - 65 mg Tablet',
-                    'After Meal',
-                    '1 tablet at 8:00 pm',
+                    medicationName: 'Amoxicillin - 65 mg Tablet',
+                    instructions: 'After Meal - 1 tablet at 8:00 pm',
                   ),
                   const SizedBox(height: 14),
                   Center(
@@ -131,7 +129,8 @@ class HomeScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const MedicationScheduleScreen(),
+                            builder: (context) =>
+                                const MedicationScheduleScreen(),
                           ),
                         );
                       },
@@ -151,7 +150,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusCard(BuildContext context, String number, String label, Color color) {
+  Widget _buildStatusCard(
+      BuildContext context, String number, String label, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
@@ -253,6 +253,64 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildMedicationItem(BuildContext context,
+      {String status = '',
+      String medicationName = 'Amoxicilline - 65 mg Tablet',
+      String instructions = 'After Meal - 1 tablet'}) {
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 15,
+            child: Text(medicationName.isNotEmpty ? medicationName[0] : 'M',
+                style: const TextStyle(color: Colors.black)),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  medicationName,
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  instructions,
+                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                ),
+              ],
+            ),
+          ),
+          if (status.isNotEmpty)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: status == 'Taken' ? Colors.green[100] : Colors.red[100],
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                status,
+                style: TextStyle(
+                  color:
+                      status == 'Taken' ? Colors.green[800] : Colors.red[800],
+                  fontSize: 12,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

@@ -40,38 +40,42 @@ class MedicationScheduleScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(7, (index) {
-              DateTime date = DateTime.now().add(Duration(days: index));
-              String day = ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.weekday % 7];
-              bool isSelected = index == 0;
-              return _buildDayCircle(day, date.day.toString(), isSelected: isSelected);
+                DateTime date = DateTime.now().add(Duration(days: index));
+                String day =
+                    ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.weekday % 7];
+                bool isSelected = index == 0;
+                return _buildDayCircle(day, date.day.toString(),
+                    isSelected: isSelected);
               }),
             ),
           ),
-          
+
           // Schedule timeline
           Expanded(
             child: ListView(
-                padding: const EdgeInsets.all(0),
-                children: [
+              padding: const EdgeInsets.all(0),
+              children: [
                 Stack(
                   children: [
-                  Column(
-                    children: [
-                    _buildTimeSlot('7:00'),
-                    _buildTimeSlot('8:00', hasMedication: true, status: 'Skipped'),
-                    _buildTimeSlot('9:00'),
-                    _buildTimeSlot('10:00', hasMedication: true, status: 'Taken'),
-                    _buildTimeSlot('11:00'),
-                    _buildTimeSlot('12:00', hasDoubleMedication: true),
-                    _buildTimeSlot('13:00'),
-                    _buildTimeSlot('14:00'),
-                    _buildTimeSlot('15:00', hasMedication: true),
-                    _buildTimeSlot('16:00'),
-                    ],
-                  ),
+                    Column(
+                      children: [
+                        _buildTimeSlot('7:00'),
+                        _buildTimeSlot('8:00',
+                            hasMedication: true, status: 'Skipped'),
+                        _buildTimeSlot('9:00'),
+                        _buildTimeSlot('10:00',
+                            hasMedication: true, status: 'Taken'),
+                        _buildTimeSlot('11:00'),
+                        _buildTimeSlot('12:00', hasDoubleMedication: true),
+                        _buildTimeSlot('13:00'),
+                        _buildTimeSlot('14:00'),
+                        _buildTimeSlot('15:00', hasMedication: true),
+                        _buildTimeSlot('16:00'),
+                      ],
+                    ),
                   ],
                 ),
-                ],
+              ],
               // children: [
               //   _buildTimeSlot('7:00'),
               //   _buildTimeSlot('8:00', hasMedication: true, status: 'Skipped'),
@@ -122,7 +126,10 @@ class MedicationScheduleScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeSlot(String time, {bool hasMedication = false, bool hasDoubleMedication = false, String status = ''}) {
+  Widget _buildTimeSlot(String time,
+      {bool hasMedication = false,
+      bool hasDoubleMedication = false,
+      String status = ''}) {
     return Container(
       height: hasDoubleMedication ? 100 : 70,
       decoration: BoxDecoration(
@@ -148,29 +155,31 @@ class MedicationScheduleScreen extends StatelessWidget {
                 ),
               ),
             ),
-            ),
-            // Horizontal time line
-            
-         
+          ),
+          // Horizontal time line
+
           // Medication info
           Expanded(
-            child: hasDoubleMedication 
-              ? Row(
-                  children: [
-                    Expanded(child: _buildMedicationItem()),
-                    Expanded(child: _buildMedicationItem()),
-                  ],
-                )
-              : hasMedication 
-                ? _buildMedicationItem(status: status) 
-                : Container(),
+            child: hasDoubleMedication
+                ? Row(
+                    children: [
+                      Expanded(child: _buildMedicationItem()),
+                      Expanded(child: _buildMedicationItem()),
+                    ],
+                  )
+                : hasMedication
+                    ? _buildMedicationItem(status: status)
+                    : Container(),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMedicationItem({String status = ''}) {
+  Widget _buildMedicationItem(
+      {String status = '',
+      String medicationName = 'Amoxicilline - 65 mg Tablet',
+      String instructions = 'After Meal - 1 tablet'}) {
     return Container(
       margin: const EdgeInsets.all(8.0),
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -183,22 +192,23 @@ class MedicationScheduleScreen extends StatelessWidget {
           CircleAvatar(
             backgroundColor: Colors.white,
             radius: 15,
-            child: const Text('A', style: TextStyle(color: Colors.black)),
+            child: Text(medicationName.isNotEmpty ? medicationName[0] : 'M',
+                style: const TextStyle(color: Colors.black)),
           ),
           const SizedBox(width: 8),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Amoxicilline - 65 mg Tablet',
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                  medicationName,
+                  style: const TextStyle(fontWeight: FontWeight.w500),
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  'After Meal - 1 tablet',
-                  style: TextStyle(fontSize: 12, color: Colors.black54),
+                  instructions,
+                  style: const TextStyle(fontSize: 12, color: Colors.black54),
                 ),
               ],
             ),
@@ -213,7 +223,8 @@ class MedicationScheduleScreen extends StatelessWidget {
               child: Text(
                 status,
                 style: TextStyle(
-                  color: status == 'Taken' ? Colors.green[800] : Colors.red[800],
+                  color:
+                      status == 'Taken' ? Colors.green[800] : Colors.red[800],
                   fontSize: 12,
                 ),
               ),

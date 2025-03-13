@@ -8,7 +8,7 @@ void main() {
 }
 
 class MedicationApp extends StatelessWidget {
-  const MedicationApp({Key? key}) : super(key: key);
+  const MedicationApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class MedicationApp extends StatelessWidget {
           seedColor: const Color(0xFF4A6572),
         ),
       ),
-      home: SplashScreen(), 
+      home: SplashScreen(),
     );
   }
 }
