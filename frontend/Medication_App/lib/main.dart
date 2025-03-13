@@ -1,8 +1,9 @@
 // lib/main.dart (simplified)
 import 'package:flutter/material.dart';
-import 'med_scanner.dart';
+import 'splash_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MedicationApp());
 }
 
@@ -19,7 +20,7 @@ class MedicationApp extends StatelessWidget {
           seedColor: const Color(0xFF4A6572),
         ),
       ),
-      home: const MedicationScannerScreen(), // Just go directly to scanner for now
+      home: SplashScreen(), 
     );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'med_schedule.dart';
+import 'package:file_picker/file_picker.dart';
 
 class MainApp extends StatelessWidget {
-  const MainApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,58 +27,38 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text('Medication Reminder'),
+        title: const Text('Hello, User'),
         elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+            children: [
             // User Greeting Section
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.grey[300],
-                  radius: 25,
-                  child: const Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Text(
-                  'Hello, User',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
+            
             const SizedBox(height: 24),
 
             // Medication Stats Cards
             Row(
               children: [
-                Expanded(
-                  child: _buildStatCard(
-                    '4',
-                    'Upcoming Medication',
-                    const Color(0xFF4A6572),
-                    context,
-                  ),
+              Expanded(
+                child: _buildStatCard(
+                '4',
+                'Upcoming Medication',
+                const Color(0xFF4A6572),
+                context,
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _buildStatCard(
-                    '4',
-                    'Skipped Medication',
-                    const Color(0xFFF9AA33),
-                    context,
-                  ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildStatCard(
+                '4',
+                'Skipped Medication',
+                const Color(0xFFF9AA33),
+                context,
                 ),
+              ),
               ],
             ),
             const SizedBox(height: 24),
@@ -86,17 +67,34 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'My Medication',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const Text(
+                'My Prescription',
+                style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Expand'),
-                ),
+              ),
+              TextButton(
+                onPressed: () async {
+              FilePickerResult? result = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ['jpg', 'png', 'pdf', 'doc', 'docx'],
+              );
+
+              if (result != null) {
+                String? filePath = result.files.single.path;
+                print('Selected file: $filePath');
+                ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('File Selected: ${result.files.single.name}')),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('No file selected')),
+                );
+              }
+              },
+                child: const Text('Add Prescription'),
+              )
               ],
             ),
             const SizedBox(height: 8),
@@ -104,13 +102,23 @@ class HomeScreen extends StatelessWidget {
             // Medication List
             Expanded(
               child: ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return _buildMedicationCard(context);
-                },
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return _buildMedicationCard(context);
+              },
               ),
             ),
-          ],
+            TextButton(
+              onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MedicationScheduleScreen()),
+              );
+              },
+              child: const Text('Expand'),
+            ),
+            ],
+          //],
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -140,6 +148,13 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _openMedicationScheduleScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MedicationScheduleScreen()),
     );
   }
 

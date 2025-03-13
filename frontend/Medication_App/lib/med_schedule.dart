@@ -14,6 +14,14 @@ class MedicationScheduleScreen extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
+        // actions: [
+        //    ElevatedButton(
+        //     onPressed: () {
+        //     Navigator.pushNamed(context, '/device');
+        //     },
+        //     child: const Text('Add Prescription'),
+        //   )
+        //],
       ),
       body: Column(
         children: [
@@ -31,33 +39,51 @@ class MedicationScheduleScreen extends StatelessWidget {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildDayCircle('M', '15'),
-                _buildDayCircle('T', '16', isSelected: true),
-                _buildDayCircle('W', '17'),
-                _buildDayCircle('T', '18'),
-                _buildDayCircle('F', '19'),
-                _buildDayCircle('S', '20'),
-              ],
+              children: List.generate(7, (index) {
+              DateTime date = DateTime.now().add(Duration(days: index));
+              String day = ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.weekday % 7];
+              bool isSelected = index == 0;
+              return _buildDayCircle(day, date.day.toString(), isSelected: isSelected);
+              }),
             ),
           ),
           
           // Schedule timeline
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.all(0),
-              children: [
-                _buildTimeSlot('7:00'),
-                _buildTimeSlot('8:00', hasMedication: true, status: 'Skipped'),
-                _buildTimeSlot('9:00'),
-                _buildTimeSlot('10:00', hasMedication: true, status: 'Taken'),
-                _buildTimeSlot('11:00'),
-                _buildTimeSlot('12:00', hasDoubleMedication: true),
-                _buildTimeSlot('13:00'),
-                _buildTimeSlot('14:00'),
-                _buildTimeSlot('15:00', hasMedication: true),
-                _buildTimeSlot('16:00'),
-              ],
+                padding: const EdgeInsets.all(0),
+                children: [
+                Stack(
+                  children: [
+                  Column(
+                    children: [
+                    _buildTimeSlot('7:00'),
+                    _buildTimeSlot('8:00', hasMedication: true, status: 'Skipped'),
+                    _buildTimeSlot('9:00'),
+                    _buildTimeSlot('10:00', hasMedication: true, status: 'Taken'),
+                    _buildTimeSlot('11:00'),
+                    _buildTimeSlot('12:00', hasDoubleMedication: true),
+                    _buildTimeSlot('13:00'),
+                    _buildTimeSlot('14:00'),
+                    _buildTimeSlot('15:00', hasMedication: true),
+                    _buildTimeSlot('16:00'),
+                    ],
+                  ),
+                  ],
+                ),
+                ],
+              // children: [
+              //   _buildTimeSlot('7:00'),
+              //   _buildTimeSlot('8:00', hasMedication: true, status: 'Skipped'),
+              //   _buildTimeSlot('9:00'),
+              //   _buildTimeSlot('10:00', hasMedication: true, status: 'Taken'),
+              //   _buildTimeSlot('11:00'),
+              //   _buildTimeSlot('12:00', hasDoubleMedication: true),
+              //   _buildTimeSlot('13:00'),
+              //   _buildTimeSlot('14:00'),
+              //   _buildTimeSlot('15:00', hasMedication: true),
+              //   _buildTimeSlot('16:00'),
+              // ],
             ),
           ),
         ],
@@ -122,16 +148,14 @@ class MedicationScheduleScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          // Vertical time line
-          Container(
-            width: 1,
-            color: Colors.red,
-          ),
+            ),
+            // Horizontal time line
+            
+         
           // Medication info
           Expanded(
             child: hasDoubleMedication 
-              ? Column(
+              ? Row(
                   children: [
                     Expanded(child: _buildMedicationItem()),
                     Expanded(child: _buildMedicationItem()),
@@ -173,11 +197,7 @@ class MedicationScheduleScreen extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  'After Meal',
-                  style: TextStyle(fontSize: 12, color: Colors.black54),
-                ),
-                Text(
-                  '1 tablet',
+                  'After Meal - 1 tablet',
                   style: TextStyle(fontSize: 12, color: Colors.black54),
                 ),
               ],
