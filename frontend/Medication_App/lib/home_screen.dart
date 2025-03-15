@@ -5,13 +5,13 @@ import 'package:file_picker/file_picker.dart';
 import 'new_medication.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor, // Safer alternative
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Row(
           children: [
             const CircleAvatar(
@@ -78,8 +78,8 @@ class HomeScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles();
+                    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
                     if (result != null && result.files.single.path != null) {
                       debugPrint('File selected: ${result.files.single.path}');
                     } else {
@@ -88,7 +88,7 @@ class HomeScreen extends StatelessWidget {
                   },
                   child: Row(
                     children: [
-                      const Icon(Icons.upload_file, size: 14),
+                      const Icon(Icons.upload_file, size: 18),
                       const SizedBox(width: 4),
                       const Text(
                         'Upload Prescription',
@@ -107,20 +107,23 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   _buildMedicationItem(
                     context,
-                    medicationName: 'Amoxicillin - 65 mg Tablet',
-                    instructions: 'After Meal - 1 tablet at 12:00 pm',
+                    'Amoxicillin - 65 mg Tablet',
+                    'After Meal',
+                    '1 tablet at 12:00 pm',
                   ),
                   const SizedBox(height: 14),
                   _buildMedicationItem(
                     context,
-                    medicationName: 'Amoxicillin - 65 mg Tablet',
-                    instructions: 'After Meal - 1 tablet at 4:00 pm',
+                    'Amoxicillin - 65 mg Tablet',
+                    'After Meal',
+                    '1 tablet at 4:00 pm',
                   ),
                   const SizedBox(height: 14),
                   _buildMedicationItem(
                     context,
-                    medicationName: 'Amoxicillin - 65 mg Tablet',
-                    instructions: 'After Meal - 1 tablet at 8:00 pm',
+                    'Amoxicillin - 65 mg Tablet',
+                    'After Meal',
+                    '1 tablet at 8:00 pm',
                   ),
                   const SizedBox(height: 14),
                   Center(
@@ -129,8 +132,7 @@ class HomeScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const MedicationScheduleScreen(),
+                            builder: (context) => const MedicationScheduleScreen(),
                           ),
                         );
                       },
@@ -146,12 +148,16 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(context),
+      bottomNavigationBar: _buildBottomNavigationBar(context), // ✅ Corrected placement
     );
   }
 
   Widget _buildStatusCard(
-      BuildContext context, String number, String label, Color color) {
+    BuildContext context,
+    String number,
+    String label,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
@@ -186,7 +192,7 @@ class HomeScreen extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -209,7 +215,10 @@ class HomeScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.add, color: Colors.white),
+            const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
             const SizedBox(width: 8),
             const Text(
               'Add Medication',
@@ -220,6 +229,74 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildMedicationItem(
+    BuildContext context,
+    String name,
+    String timing,
+    String dose,
+  ) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 2,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            name,
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+          Text(
+            timing,
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+          ),
+          Text(
+            dose,
+            style: const TextStyle(fontSize: 12, color: Colors.red),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.shade200,
+                    foregroundColor: Colors.black87,
+                    elevation: 0,
+                  ),
+                  child: const Text('Skipped'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.shade200,
+                    foregroundColor: Colors.black87,
+                    elevation: 0,
+                  ),
+                  child: const Text('Taken'),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -235,7 +312,7 @@ class HomeScreen extends StatelessWidget {
             IconButton(
               icon: Icon(
                 Icons.qr_code_scanner,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primary,
               ),
               onPressed: () {
                 Navigator.push(
@@ -253,64 +330,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildMedicationItem(BuildContext context,
-      {String status = '',
-      String medicationName = 'Amoxicilline - 65 mg Tablet',
-      String instructions = 'After Meal - 1 tablet'}) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 15,
-            child: Text(medicationName.isNotEmpty ? medicationName[0] : 'M',
-                style: const TextStyle(color: Colors.black)),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  medicationName,
-                  style: const TextStyle(fontWeight: FontWeight.w500),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  instructions,
-                  style: const TextStyle(fontSize: 12, color: Colors.black54),
-                ),
-              ],
-            ),
-          ),
-          if (status.isNotEmpty)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: status == 'Taken' ? Colors.green[100] : Colors.red[100],
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                status,
-                style: TextStyle(
-                  color:
-                      status == 'Taken' ? Colors.green[800] : Colors.red[800],
-                  fontSize: 12,
-                ),
-              ),
-            ),
-        ],
       ),
     );
   }
