@@ -1,5 +1,4 @@
-fastapi
-uvicorn
+gradio
 transformers  # For Hugging Face models
 torch
 torchvision

@@ -32,3 +32,5 @@ def perform_ocr(image_bytes):
     paragraphs = parsed_text.split('\n')
     formatted_text = "\n\n".join(p.strip() for p in paragraphs if p.strip())
     return formatted_text
+
+export = perform_ocr

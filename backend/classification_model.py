@@ -38,7 +38,7 @@ model = timm.create_model("rexnet_150", pretrained=True, num_classes=len(PILL_CL
 model.to(device)
 
 # Load the trained state dict
-model_path = os.path.join(os.pardir, "classification_model.pth")
+model_path = os.path.join("classification_model.pth")
 model.load_state_dict(torch.load(model_path, map_location=device))
 model.eval()
 
@@ -66,3 +66,5 @@ def classify_medicine(image_bytes):
     pill_class = PILL_CLASSES_INVERTED.get(class_index, "Unknown")
     
     return {"class_index": class_index, "pill_class": pill_class, "confidence": confidence}
+
+export = classify_medicine
