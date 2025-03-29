@@ -1,73 +1,86 @@
-MediTrack AI: Intelligent Medication Tracker - NUS HealthHack 2025
+# MediTrack AI: Intelligent Medication Tracker
 
-Authors: Atul Parida, Kripashree S
+## NUS HealthHack 2025
 
-Overview
+**Authors:** Atul Parida, Kripashree S
+
+## Overview
 
 MediTrack AI is a smart medication tracking application developed for the NUS HealthHack 2025. Leveraging the power of Flutter for a cross-platform mobile experience and TensorFlow Lite for on-device AI processing, MediTrack AI aims to revolutionize how individuals manage and adhere to their medication schedules. The app provides AI-powered medicine identification, pill counting, and intelligent relation to other medicines and diseases, ensuring comprehensive medication management.
 
-Key Features
+## Key Features
 
-AI-Powered Medicine Identification: Utilizes TensorFlow Lite models to identify medicines from images captured via the device's camera. This feature helps users quickly and accurately log their medications, even without knowing the name.
-Automated Pill Counting: Employs AI algorithms to count the number of pills in a container from an image, assisting users in tracking their medication consumption and refills.
-Intelligent Medication Relation: Analyzes the relationships between different medications and associated diseases, providing users with potential interactions and side effects, promoting safer medication practices.
-Personalized Medication Schedules: Allows users to create and manage personalized medication schedules with reminders, ensuring timely adherence to prescriptions.
-Comprehensive Medication Logging: Maintains a detailed history of medication intake, providing valuable insights for users and healthcare providers.
-User-Friendly Interface: Designed with Flutter, the app offers a seamless and intuitive user experience across both Android and iOS platforms.
-Tech Stack
+- **AI-Powered Medicine Identification:** Utilizes TensorFlow Lite models to identify medicines from images captured via the device's camera.
+- **Automated Pill Counting:** AI algorithms count the number of pills in a container from an image, assisting users in tracking medication consumption and refills.
+- **Intelligent Medication Relation:** Analyzes relationships between different medications and associated diseases, providing users with potential interactions and side effects.
+- **Personalized Medication Schedules:** Allows users to create and manage medication schedules with reminders for timely adherence.
+- **Comprehensive Medication Logging:** Maintains a detailed history of medication intake for insights and healthcare provider reference.
+- **User-Friendly Interface:** Built with Flutter, ensuring a seamless experience across Android and iOS platforms.
 
-Flutter: Used for building the cross-platform mobile application, ensuring a smooth and responsive UI.
-TensorFlow Lite: Deployed for on-device AI processing, enabling real-time medicine identification and pill counting without requiring an internet connection.
-TFLite Models: Custom-trained models for image recognition and object detection, optimized for mobile devices.
-Dart: The primary programming language for Flutter development.
-Dockerization
+## Tech Stack
 
-To ensure consistency and ease of deployment, the MediTrack AI application can be containerized using Docker. This allows developers and users to run the application in a consistent environment, regardless of the underlying operating system.
+- **Flutter:** Cross-platform mobile application framework.
+- **TensorFlow Lite:** On-device AI processing for medicine identification and pill counting.
+- **TFLite Models:** Custom-trained image recognition and object detection models optimized for mobile.
+- **Dart:** Primary language for Flutter development.
 
-Docker Setup
+## Dockerization
 
-Install Docker: If you don't have Docker installed, download and install it from Docker's official website.
+To ensure consistency and ease of deployment, the MediTrack AI application can be containerized using Docker.
 
-Clone the Repository: Clone the MediTrack AI repository from GitHub.
+### Docker Setup
 
-Build the Docker Image: Navigate to the root directory of the project and run the following command to build the Docker image:
+1. **Install Docker:** Download and install Docker from the [official website](https://www.docker.com/get-started).
+2. **Clone the Repository:**
+   ```sh
+   git clone https://github.com/your-repo/meditrack-ai.git
+   cd meditrack-ai
+   ```
+3. **Build the Docker Image:**
+   ```sh
+   docker build -t meditrack-ai .
+   ```
+4. **Run the Docker Container:**
+   ```sh
+   docker run -p 8080:8080 meditrack-ai
+   ```
+   The application will be accessible at `http://localhost:8080`.
 
-docker build -t meditrack-ai .
-Run the Docker Container: Once the image is built, run the following command to start the Docker container:
+## Running the Application (Without Docker)
 
-docker run -p 8080:8080 meditrack-ai
-This will start the MediTrack AI application inside the Docker container, accessible via http://localhost:8080 in your web browser.
+1. **Install Flutter:** Follow the installation guide on the [Flutter website](https://flutter.dev/docs/get-started/install).
+2. **Clone the Repository:**
+   ```sh
+   git clone https://github.com/your-repo/meditrack-ai.git
+   cd meditrack-ai
+   ```
+3. **Get Dependencies:**
+   ```sh
+   flutter pub get
+   ```
+4. **Connect a Device:** Connect an Android/iOS device or start an emulator.
+5. **Run the Application:**
+   ```sh
+   flutter run
+   ```
+   This will install and run MediTrack AI on the connected device or emulator.
 
-Running the Application (Without Docker)
+## NUS HealthHack 2025 - Hackathon Requirements
 
-Install Flutter: Ensure you have Flutter installed on your machine. Follow the installation guide on the official Flutter website.
+MediTrack AI aligns with the hackathon goals by tackling medication adherence and safety challenges through AI and user-friendly design.
 
-Clone the Repository: Clone the MediTrack AI repository from GitHub.
+- **Innovation:** AI-powered medicine identification and pill counting provide a novel approach.
+- **Impact:** Improves medication adherence and reduces errors, enhancing patient outcomes.
+- **Technical Feasibility:** Built with robust and scalable technologies for real-world deployment.
+- **User Experience:** Intuitive interface with personalized features ensures ease of use.
 
-Get Dependencies: Navigate to the project directory in your terminal and run:
+## Future Enhancements
 
-flutter pub get
-Connect a Device: Connect a physical Android or iOS device to your computer, or start an emulator.
+- **Integration with Wearable Devices:** For continuous medication intake monitoring.
+- **Cloud Synchronization:** Secure storage and syncing of medication data across devices.
+- **Telemedicine Integration:** Remote consultations with healthcare providers.
+- **Advanced Analytics:** Personalized insights into medication patterns and health outcomes.
 
-Run the Application: Run the following command to start the application:
-
-flutter run
-This will install and run the MediTrack AI application on your connected device or emulator.
-
-NUS HealthHack 2025 - Hackathon Requirements
-
-MediTrack AI is designed to meet the requirements of the NUS HealthHack 2025 by providing an innovative solution to medication management. The application addresses the challenges of medication adherence, accuracy, and safety through the use of cutting-edge AI technology and a user-friendly interface.
-
-Innovation: The AI-powered medicine identification and pill counting features offer a novel approach to medication tracking.
-Impact: By improving medication adherence and reducing medication errors, MediTrack AI has the potential to significantly improve patient outcomes.
-Technical Feasibility: The application is built using robust and scalable technologies, ensuring its feasibility for real-world deployment.
-User Experience: The intuitive interface and personalized features make MediTrack AI easy to use and engaging for users of all ages.
-Future Enhancements
-
-Integration with Wearable Devices: To enable continuous monitoring of medication intake.
-Cloud Synchronization: To securely store and synchronize medication data across multiple devices.
-Telemedicine Integration: To facilitate remote consultations with healthcare providers.
-Advanced Analytics: To provide users with personalized insights into their medication patterns and health outcomes.
-Conclusion
+## Conclusion
 
 MediTrack AI represents a significant advancement in medication management, offering a comprehensive and intelligent solution for individuals and healthcare providers. We are excited to present this application at the NUS HealthHack 2025 and contribute to the future of healthcare technology.
