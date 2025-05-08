@@ -4,6 +4,8 @@
 
 **Authors:** Atul Parida, Kripashree S
 
+**Access the app here:** https://huggingface.co/spaces/atulisoffline/Healthhack-2025
+
 ## Overview
 
 MediTrack AI is a smart medication tracking application developed for the NUS HealthHack 2025. Leveraging the power of Flutter for a cross-platform mobile experience and TensorFlow Lite for on-device AI processing, MediTrack AI aims to revolutionize how individuals manage and adhere to their medication schedules. The app provides AI-powered medicine identification, pill counting, and intelligent relation to other medicines and diseases, ensuring comprehensive medication management.
